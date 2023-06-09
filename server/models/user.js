@@ -8,8 +8,16 @@ module.exports = {
 			autoIncrement: true,
 			allowNull: false,
 			primaryKey: true,
-			username: DataTypes.STRING,
-			hashedPass: DataTypes.STRING,
+		},
+
+		username: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+
+		hashedPass: {
+			type: DataTypes.STRING,
+			allowNull: false,
 		},
 	}),
 };

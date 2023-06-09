@@ -211,6 +211,12 @@ main {
 	margin-bottom: 15px;
 }
 
+.error {
+	font-size: .9rem;
+	color: red;
+	margin: -1.35rem;
+}
+
 /* add post */
 
 .add-post-form {

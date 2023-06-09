@@ -5,7 +5,8 @@ import axios from "axios";
 const Auth = () => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
-	const [register, setRegister] = useState(true);
+	const [register, setRegister] = useState(false);
+	const [error, setError] = useState({ isError: false, error: "" });
 	const authCtx = useContext(AuthContext);
 
 	const submitHandler = (e) => {
@@ -16,17 +17,17 @@ const Auth = () => {
 			password,
 		};
 
-		const url = "https://socialmtn.devmountain.com";
+		const url = "http://localhost:8080";
 
 		axios
 			.post(register ? `${url}/register` : `${url}/login`, body)
 			.then(({ data }) => {
-                console.log("AFTER AUTH", data);
-                authCtx.login(data.token, data.exp, data.userId)
+				authCtx.login(data.token, data.exp, data.userId);
 			})
 			.catch((err) => {
-				setPassword("");
-				setUsername("");
+				setError((prev) => {
+					return { ...prev, isError: true, error: err.response.data };
+				});
 			});
 	};
 
@@ -38,16 +39,23 @@ const Auth = () => {
 					type="text"
 					placeholder="username"
 					value={username}
-					onChange={(e) => setUsername(e.target.value)}
+					onChange={(e) => {
+						setUsername(e.target.value);
+						setError({});
+					}}
 					className="form-input"
 				/>
 				<input
 					type="password"
 					placeholder="password"
 					value={password}
-					onChange={(e) => setPassword(e.target.value)}
+					onChange={(e) => {
+						setPassword(e.target.value);
+						setError({});
+					}}
 					className="form-input"
 				/>
+				{error.isError ? <h1 className="error">{error.error}</h1> : ""}
 				<button className="form-btn">{register ? "Sign Up" : "Login"}</button>
 			</form>
 			<button

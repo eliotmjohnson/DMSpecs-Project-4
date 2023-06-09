@@ -20,12 +20,13 @@ const {
 	editPost,
 	deletePost,
 } = require("./controllers/posts");
-const { register, login } = require("./controllers/auth");
+const { register, login, getTokenData } = require("./controllers/auth");
 const { isAuthenticated } = require("./middleware/isAuthenticated");
 
 //AUTH
 app.post("/register", register);
 app.post("/login", login);
+app.post("/getData", getTokenData);
 
 // GET POSTS - no auth
 app.get("/posts", getAllPosts);
@@ -41,6 +42,8 @@ User.hasMany(Post);
 Post.belongsTo(User);
 
 sequelize
+	// .sync({alter: true})
+	// .sync({force: true})
 	.sync()
 	.then(() => {
 		app.listen(PORT, () =>

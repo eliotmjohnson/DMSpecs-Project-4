@@ -39,18 +39,20 @@ const Header = () => {
 									Add Post
 								</NavLink>
 							</li>
-							<li>
+							{ authCtx.token ? <li>
 								<button className="logout-btn" onClick={() => authCtx.logout()}>
 									Logout
 								</button>
-							</li>
+							</li> : undefined}
 						</>
 					) : undefined}
-					<li>
-						<NavLink style={styleActiveLink} to="auth">
-							Login or Register
-						</NavLink>
-					</li>
+					{authCtx.token ? undefined : (
+						<li>
+							<NavLink style={styleActiveLink} to="auth">
+								Login or Register
+							</NavLink>
+						</li>
+					)}
 				</ul>
 			</nav>
 		</header>
